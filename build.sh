@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Author: Marley Mulvin Broome
-# Date: 2021-08-15
+# Date: 2023-07-19
 # Description: This script builds the JSpeak addon and copies it to the Anki addons directory.
 #              This script is intended to be run from the root of the project directory.
 
