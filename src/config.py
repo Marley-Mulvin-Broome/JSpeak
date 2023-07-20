@@ -5,6 +5,7 @@ from aqt import mw
 from .util import get_plugin_path
 
 _config = ConfigParser()
+_last_filename = ''
 
 
 def config_loaded(func):
@@ -25,6 +26,22 @@ def load_config(filename='config.ini') -> None:
         raise FileNotFoundError(f'Config file not found ({filename})')
 
     _config.read(filename)
+
+    if len(_config.sections()) == 0:
+        raise ValueError(f'Config file is empty ({filename})')
+
+    global _last_filename
+    _last_filename = filename
+
+
+def get_last_config_filename() -> str:
+    """ Get the last config filename."""
+    return _last_filename
+
+
+def clear_config() -> None:
+    """ Clear the config."""
+    _config.clear()
 
 
 @config_loaded
@@ -49,6 +66,13 @@ def get_resource(resource_name: str, get_full_path=True) -> str:
         return get_plugin_path(to_join=local_path)
 
     return local_path
+
+
+@config_loaded
+def save_config(filename='config.ini') -> None:
+    """ Save the config file."""
+    with open(filename, 'w') as config_file:
+        _config.write(config_file)
 
 
 # Anki user config
