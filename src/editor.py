@@ -69,11 +69,8 @@ def append_tts_audio(editor: Editor):
     target_field = pick_target_field(
         editor.note.keys(),
         parse_target_field(get_user_config()["Target Field"]),
-        ""
+        editor.note.keys()[editor.currentField]
     )
-
-    if not target_field:
-        target_field = editor.note.keys()[editor.currentField]
 
     if len(editor.note[target_field]) > 0:
         target_field = editor.note.keys()[editor.currentField]
