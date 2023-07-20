@@ -22,7 +22,7 @@ def config_loaded(func):
 def load_config(filename='config.ini') -> None:
     """ Load the config file."""
     if not is_file(filename):
-        raise FileNotFoundError('Config file not found')
+        raise FileNotFoundError(f'Config file not found ({filename})')
 
     _config.read(filename)
 

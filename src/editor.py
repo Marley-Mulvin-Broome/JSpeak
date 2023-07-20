@@ -1,12 +1,52 @@
 from os.path import isfile as is_file, join as join_path
 
 from aqt.utils import showInfo
-
+from aqt import mw
 from aqt.editor import Editor
 
 from .config import get_resource, get_user_config
+from .speak.ttsprovider import ITTSProvider
 from .util import write_bytes_to_file
 from .tts import get_current_tts
+
+
+def parse_target_field(target_field: str) -> list[str]:
+    """ Parse the target field from the config. """
+    if not target_field or target_field is None:
+        return []
+
+    target_field = target_field.strip().split('|')
+
+    if len(target_field) == 0:
+        return []
+
+    return target_field
+
+
+def pick_target_field(fields: list[str], targets: list[str], fallback: str) -> str:
+    """ Pick the target field from the list of fields.
+    If the target field is not in the list of fields, return the fallback.
+    Priority is given to the first field in the list of fields.
+    """
+    for target in targets:
+        if target in fields:
+            return target
+
+    return fallback
+
+
+def generate_tts_file(text: str, filename: str, tts: ITTSProvider = None) -> str:
+    """ Generate a TTS file from the given text and TTS provider. """
+    if tts is None:
+        tts = get_current_tts()
+
+    full_path = join_path(mw.col.media.dir(), filename)
+
+    if not is_file(full_path):
+        audio_bytes = tts.speak(text)
+        write_bytes_to_file(audio_bytes, full_path)
+
+    return full_path
 
 
 def append_tts_audio(editor: Editor):
@@ -24,30 +64,22 @@ def append_tts_audio(editor: Editor):
 
     file_name = f"{repr(tts)}{selection}.mp3"
 
-    media_path = editor.mw.col.media.dir()
+    generate_tts_file(selection, file_name, tts)
 
-    full_path = join_path(media_path, file_name)
-
-    if not is_file(full_path):
-        audio_bytes = tts.speak(selection)
-        write_bytes_to_file(audio_bytes, full_path)
-
-    # add [sound:file_name] to the target field
-    # or the current field if no target field is selected
-    target_field = get_user_config()["Target Field"]
+    target_field = pick_target_field(
+        editor.note.keys(),
+        parse_target_field(get_user_config()["Target Field"]),
+        ""
+    )
 
     if not target_field:
-        target_field = editor.currentField
+        target_field = editor.note.keys()[editor.currentField]
+
+    if len(editor.note[target_field]) > 0:
+        target_field = editor.note.keys()[editor.currentField]
 
     editor.web.eval(f'focusField("{target_field}")')
-
-    if type(target_field) is not str:
-        editor.note.fields[target_field] += f'[sound:{file_name}]'
-    else:
-        editor.note[target_field] += f'[sound:{file_name}]'
-
-    editor.note.flush()
-
+    editor.note[target_field] += f'[sound:{file_name}]'
     editor.loadNoteKeepingFocus()
 
 
