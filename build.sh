@@ -22,6 +22,7 @@ if [ ! -d "$ADDON_DIR" ]; then
 fi
 
 real_addon_dir="$ADDON_DIR/JSpeak"
+source_dir="./src"
 
 if [ -d "$real_addon_dir" ]; then
     echo "Removing old JSpeak addon..."
@@ -29,7 +30,7 @@ if [ -d "$real_addon_dir" ]; then
 fi
 
 echo "Copying files to addons directory..."
-echo "../JSpeak -> $real_addon_dir"
-cp -r "../JSpeak" "$real_addon_dir" || exit 1
+echo "$source_dir -> $real_addon_dir"
+cp -r "$source_dir" "$real_addon_dir" || exit 1
 
 echo "Done!"

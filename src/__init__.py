@@ -13,12 +13,12 @@ __email__ = "marley.developer@gmail.com"
 
 from anki.hooks import addHook
 
-from .util import sys_path_add, get_plugin_path
+from src.util import sys_path_add, get_plugin_path
 # Add to sys.path, so we can import our libraries
 sys_path_add(get_plugin_path('lib'))
 
-from .editor import add_editor_buttons
-from .config import load_config
+from src.editor import add_editor_buttons
+from src.config import load_config
 
 
 
