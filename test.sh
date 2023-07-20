@@ -11,4 +11,15 @@ then
     exit 1
 fi
 
+# ask for coverage report
+read -p "Do you want a coverage report? (y/n) " -n 1 -r
+
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    python -m pytest -n auto --cov=src --cov-report=html --cov-report=term -- tests/test_*.py
+
+    xdg-open htmlcov/index.html
+    exit 0
+fi
+
 python -m pytest -n auto -- tests/test_*.py
