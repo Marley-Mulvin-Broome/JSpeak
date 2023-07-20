@@ -16,7 +16,7 @@ read -p "Do you want a coverage report? (y/n) " -n 1 -r
 
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    python -m pytest -n auto --cov=src --cov-report=html --cov-report=term -- tests/test_*.py
+    python -m pytest -n auto --cov=src --cov-report=html --cov-report=term --cov-fail-under=50 -- tests/test_*.py
 
     xdg-open htmlcov/index.html
     exit 0
