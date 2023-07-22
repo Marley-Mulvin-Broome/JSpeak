@@ -47,7 +47,13 @@ class TestTokenizer(unittest.TestCase):
     def test_tokenizer(self):
         t = Tokenizer([self.case1, self.case2])
         _in = "Hello, my name is Linda a. Call me Lin, b. I'm your friend"
-        _out = ["Hello", " my name is Linda ", " Call me Lin", " ", " I'm your friend"]
+        _out = [
+            "Hello",
+            " my name is Linda ",
+            " Call me Lin",
+            " ",
+            " I'm your friend",
+        ]
         self.assertEqual(t.run(_in), _out)
 
     def test_bad_params_not_list(self):

@@ -11,9 +11,9 @@ def main():
     from .editor import add_editor_buttons
     from anki.hooks import addHook
 
-    load_config(filename=get_plugin_path('config.ini'))
+    load_config(filename=get_plugin_path("config.ini"))
 
     # Have to add the lib folder to the system path, so we can import gTTS
-    sys_path_add(get_config().get('Info', 'lib_path'))
+    sys_path_add(get_config().get("Info", "lib_path"))
 
-    addHook('setupEditorButtons', add_editor_buttons)
+    addHook("setupEditorButtons", add_editor_buttons)

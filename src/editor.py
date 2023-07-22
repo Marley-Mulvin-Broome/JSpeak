@@ -11,11 +11,11 @@ from .tts import get_current_tts
 
 
 def parse_target_field(target_field: str) -> list[str]:
-    """ Parse the target field from the config. """
+    """Parse the target field from the config."""
     if not target_field or target_field is None:
         return []
 
-    target_field = target_field.strip().split('|')
+    target_field = target_field.strip().split("|")
 
     if len(target_field) == 0:
         return []
@@ -23,8 +23,10 @@ def parse_target_field(target_field: str) -> list[str]:
     return target_field
 
 
-def pick_target_field(fields: list[str], targets: list[str], fallback: str) -> str:
-    """ Pick the target field from the list of fields.
+def pick_target_field(
+    fields: list[str], targets: list[str], fallback: str
+) -> str:
+    """Pick the target field from the list of fields.
     If the target field is not in the list of fields, return the fallback.
     Priority is given to the first field in the list of fields.
     """
@@ -35,8 +37,10 @@ def pick_target_field(fields: list[str], targets: list[str], fallback: str) -> s
     return fallback
 
 
-def generate_tts_file(text: str, filename: str, tts: ITTSProvider = None) -> str:
-    """ Generate a TTS file from the given text and TTS provider. """
+def generate_tts_file(
+    text: str, filename: str, tts: ITTSProvider = None
+) -> str:
+    """Generate a TTS file from the given text and TTS provider."""
     if tts is None:
         tts = get_current_tts()
 
@@ -50,12 +54,14 @@ def generate_tts_file(text: str, filename: str, tts: ITTSProvider = None) -> str
 
 
 def append_tts_audio(editor: Editor):
-    """ Reads the text in the selected field & text, generates TTS audio, and inserts it as a sound tag. """
+    """Reads the text in the selected field & text, generates TTS audio, and inserts it as a sound tag."""
     selection = editor.web.selectedText()
 
     if not selection:
         if editor.currentField is None:
-            showInfo('Please select a field or highlight some text to generate audio.')
+            showInfo(
+                "Please select a field or highlight some text to generate audio."
+            )
             return
 
         selection = editor.note.fields[editor.currentField]
@@ -69,24 +75,24 @@ def append_tts_audio(editor: Editor):
     target_field = pick_target_field(
         editor.note.keys(),
         parse_target_field(get_user_config()["Target Field"]),
-        editor.note.keys()[editor.currentField]
+        editor.note.keys()[editor.currentField],
     )
 
     if len(editor.note[target_field]) > 0:
         target_field = editor.note.keys()[editor.currentField]
 
     editor.web.eval(f'focusField("{target_field}")')
-    editor.note[target_field] += f'[sound:{file_name}]'
+    editor.note[target_field] += f"[sound:{file_name}]"
     editor.loadNoteKeepingFocus()
 
 
 def add_editor_buttons(buttons, editor: Editor) -> None:
-    """ Add buttons to the editor toolbar. """
+    """Add buttons to the editor toolbar."""
     btn_audio = editor.addButton(
-        get_resource('icon_file', get_full_path=True),
-        'TTS Audio',
+        get_resource("icon_file", get_full_path=True),
+        "TTS Audio",
         append_tts_audio,
-        tip='Generate TTS audio for selected text'
+        tip="Generate TTS audio for selected text",
     )
 
     buttons.append(btn_audio)

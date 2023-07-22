@@ -85,7 +85,9 @@ class gTTS:
 
     """
 
-    GOOGLE_TTS_MAX_CHARS = 100  # Max characters the Google TTS API takes at a time
+    GOOGLE_TTS_MAX_CHARS = (
+        100  # Max characters the Google TTS API takes at a time
+    )
     GOOGLE_TTS_HEADERS = {
         "Referer": "http://translate.google.com/",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) "
@@ -117,7 +119,6 @@ class gTTS:
             ]
         ).run,
     ):
-
         # Debug
         for k, v in dict(locals()).items():
             if k == "self":
@@ -259,7 +260,9 @@ class gTTS:
                 with requests.Session() as s:
                     # Send request
                     r = s.send(
-                        request=pr, proxies=urllib.request.getproxies(), verify=False
+                        request=pr,
+                        proxies=urllib.request.getproxies(),
+                        verify=False,
                     )
 
                 log.debug("headers-%i: %s", idx, r.request.headers)
@@ -271,7 +274,9 @@ class gTTS:
                 # Request successful, bad response
                 log.debug(str(e))
                 raise gTTSError(tts=self, response=r)
-            except requests.exceptions.RequestException as e:  # pragma: no cover
+            except (
+                requests.exceptions.RequestException
+            ) as e:  # pragma: no cover
                 # Request failed
                 log.debug(str(e))
                 raise gTTSError(tts=self)
@@ -280,7 +285,9 @@ class gTTS:
             for line in r.iter_lines(chunk_size=1024):
                 decoded_line = line.decode("utf-8")
                 if "jQ1olc" in decoded_line:
-                    audio_search = re.search(r'jQ1olc","\[\\"(.*)\\"]', decoded_line)
+                    audio_search = re.search(
+                        r'jQ1olc","\[\\"(.*)\\"]', decoded_line
+                    )
                     if audio_search:
                         as_bytes = audio_search.group(1).encode("ascii")
                         yield base64.b64decode(as_bytes)
@@ -308,7 +315,8 @@ class gTTS:
                 log.debug("part-%i written to %s", idx, fp)
         except (AttributeError, TypeError) as e:
             raise TypeError(
-                "'fp' is not a file-like object or it does not take bytes: %s" % str(e)
+                "'fp' is not a file-like object or it does not take bytes: %s"
+                % str(e)
             )
 
     def save(self, savefile):

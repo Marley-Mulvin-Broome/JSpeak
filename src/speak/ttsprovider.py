@@ -10,16 +10,16 @@ class ITTSProvider(metaclass=ABCMeta):
                 hasattr(subclass, "speak")
                 and callable(subclass.speak)
                 and hasattr(subclass, "get_languages")
-                and callable(subclass.get_languages) or
-                NotImplemented
+                and callable(subclass.get_languages)
+                or NotImplemented
             )
 
     @abstractmethod
     def speak(self, text: str, **kwargs):
-        """ Speak the given text."""
+        """Speak the given text."""
         raise NotImplementedError
 
     @abstractmethod
     def get_languages(self) -> Dict_t:
-        """ Get a list of available languages."""
+        """Get a list of available languages."""
         raise NotImplementedError

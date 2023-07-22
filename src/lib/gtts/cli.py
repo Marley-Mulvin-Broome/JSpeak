@@ -11,8 +11,12 @@ CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 # Logger settings
 LOGGER_SETTINGS = {
     "version": 1,
-    "formatters": {"default": {"format": "%(name)s - %(levelname)s - %(message)s"}},
-    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "default"}},
+    "formatters": {
+        "default": {"format": "%(name)s - %(levelname)s - %(message)s"}
+    },
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "default"}
+    },
     "loggers": {"gtts": {"handlers": ["console"], "level": "WARNING"}},
 }
 
@@ -35,7 +39,9 @@ def validate_text(ctx, param, text):
         raise click.BadParameter("<text> or -f/--file <file> required")
     if text and "file" in ctx.params:
         # Both <text> and <file>
-        raise click.BadParameter("<text> and -f/--file <file> can't be used together")
+        raise click.BadParameter(
+            "<text> and -f/--file <file> can't be used together"
+        )
     return text
 
 
@@ -95,7 +101,9 @@ def set_debug(ctx, param, debug):
 
 
 @click.command(context_settings=CONTEXT_SETTINGS)
-@click.argument("text", metavar="<text>", required=False, callback=validate_text)
+@click.argument(
+    "text", metavar="<text>", required=False, callback=validate_text
+)
 @click.option(
     "-f",
     "--file",
@@ -111,7 +119,9 @@ def set_debug(ctx, param, debug):
     type=click.File(mode="wb"),
     help="Write to <file> instead of stdout.",
 )
-@click.option("-s", "--slow", default=False, is_flag=True, help="Read more slowly.")
+@click.option(
+    "-s", "--slow", default=False, is_flag=True, help="Read more slowly."
+)
 @click.option(
     "-l",
     "--lang",
@@ -181,7 +191,9 @@ def tts_cli(text, file, output, slow, tld, lang, nocheck):
 
     # TTS
     try:
-        tts = gTTS(text=text, lang=lang, slow=slow, tld=tld, lang_check=not nocheck)
+        tts = gTTS(
+            text=text, lang=lang, slow=slow, tld=tld, lang_check=not nocheck
+        )
         tts.write_to_fp(output)
     except (ValueError, AssertionError) as e:
         raise click.UsageError(str(e))

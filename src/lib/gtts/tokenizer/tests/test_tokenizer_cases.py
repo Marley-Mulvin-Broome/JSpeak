@@ -43,7 +43,9 @@ class TestPreTokenizerCases(unittest.TestCase):
 
     def test_legacy_all_punctuation(self):
         t = Tokenizer([legacy_all_punctuation])
-        self.assertEqual(len(t.run(symbols.ALL_PUNC)) - 1, len(symbols.ALL_PUNC))
+        self.assertEqual(
+            len(t.run(symbols.ALL_PUNC)) - 1, len(symbols.ALL_PUNC)
+        )
 
 
 if __name__ == "__main__":

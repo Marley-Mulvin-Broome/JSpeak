@@ -6,9 +6,9 @@
     The audio is then added to the current note as a sound tag.
 """
 
-__author__ = 'Marley Mulvin Broome'
-__version__ = '0.0.1'
-__license__ = 'MIT'
+__author__ = "Marley Mulvin Broome"
+__version__ = "0.0.1"
+__license__ = "MIT"
 __email__ = "marley.developer@gmail.com"
 
 from .main import main as entry_point
