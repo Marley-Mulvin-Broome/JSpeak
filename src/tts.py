@@ -14,7 +14,4 @@ def get_tts_provider(name: str) -> ITTSProvider:
 
 def get_current_tts() -> ITTSProvider:
     """Get the current TTS provider."""
-    return _current_tts
-
-
-_current_tts = get_tts_provider(get_user_config()["TTS Engine"])
+    return get_tts_provider(get_user_config()["TTS Engine"])
