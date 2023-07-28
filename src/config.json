@@ -1,5 +1,7 @@
 {
     "TTS Language": "jp",
     "TTS Engine": "Google",
-    "Target Field": "audio|音声|オーディオ|sound|サウンド|声|voice|ボイス|発音|pronunciation"
+    "Target Field": "audio|音声|オーディオ|sound|サウンド|声|voice|ボイス|発音|pronunciation",
+    "Preview": true,
+    "Overwrite Existing Audio": false
 }
