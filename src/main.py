@@ -15,6 +15,6 @@ def main():
     sys_path_add(get_plugin_path(get_config().get("Info", "lib_path")))
 
     from .editor import add_editor_buttons
-    from anki.hooks import addHook
+    from aqt.gui_hooks import editor_did_init_buttons
 
-    addHook("setupEditorButtons", add_editor_buttons)
+    editor_did_init_buttons.append(add_editor_buttons)
