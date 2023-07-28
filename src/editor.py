@@ -1,5 +1,6 @@
 from os.path import isfile as is_file, join as join_path
 
+from PyQt6.QtMultimedia import QAudio, QAudioOutput
 from aqt.utils import showInfo
 from aqt import mw
 from aqt.editor import Editor
@@ -46,9 +47,10 @@ def generate_tts_file(
 
     full_path = join_path(mw.col.media.dir(), filename)
 
-    language = get_user_config()["TTS Language"]
+    language = get_user_config("TTS Language", str)
+    overwrite = get_user_config("Overwrite TTS Audio", bool)
 
-    if not is_file(full_path):
+    if not is_file(full_path) or overwrite:
         audio_bytes = tts.speak(text, lang=language)
         write_bytes_to_file(audio_bytes, full_path)
 

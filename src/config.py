@@ -78,6 +78,18 @@ def save_config(filename="config.ini") -> None:
 # Anki user config
 
 
-def get_user_config():
+def get_user_config(key=None, expected_type=str):
     """Get the user config stored in config.json."""
-    return mw.addonManager.getConfig(__name__)
+    if key is None:
+        return mw.addonManager.getConfig(__name__)
+
+    value = mw.addonManager.getConfig(__name__).get(key)
+
+    if value is None:
+        raise ValueError(f"Key not found in user config ({key})")
+
+    # cast to expected type
+    if expected_type is not None:
+        value = expected_type(value)
+
+    return value
