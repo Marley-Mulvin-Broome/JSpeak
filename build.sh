@@ -33,7 +33,7 @@ package() {
 }
 
 usage() {
-  echo "Usage: build.sh [-d]"
+  echo "Usage: build.sh [-dh] [-a <addons directory>]"
   echo "Builds the JSpeak addon into a .ankiaddon file"
   echo "Options:"
   echo "  -d  Deploy the addon to the Anki addons directory."
