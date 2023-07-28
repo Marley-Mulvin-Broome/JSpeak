@@ -46,8 +46,10 @@ def generate_tts_file(
 
     full_path = join_path(mw.col.media.dir(), filename)
 
+    language = get_user_config()["TTS Language"]
+
     if not is_file(full_path):
-        audio_bytes = tts.speak(text)
+        audio_bytes = tts.speak(text, lang=language)
         write_bytes_to_file(audio_bytes, full_path)
 
     return full_path
