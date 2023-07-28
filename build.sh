@@ -33,13 +33,14 @@ package() {
 }
 
 usage() {
-  echo "Usage: build.sh [-dh] [-a <addons directory>]"
+  echo "Usage: build.sh [-dhe] [-a <addons directory>]"
   echo "Builds the JSpeak addon into a .ankiaddon file"
   echo "Options:"
   echo "  -d  Deploy the addon to the Anki addons directory."
   echo "    This will overwrite any existing JSpeak addon."
   echo "  -h  Display this help message."
   echo "  -a  Manually specify the addons directory."
+  echo "  -e  Execute the addon after deploying."
   exit 0
 }
 
@@ -61,13 +62,14 @@ check_dirs() {
 ADDON_DIR="$HOME/.local/share/Anki2/addons21"
 
 deploy="false"
+execute="false"
 
 if [ "$1" = "help" ]; then
   usage
 fi
 
 # get optional options of -d
-while getopts "dha:" opt; do
+while getopts "dhea:" opt; do
     case "$opt" in
         d)
             deploy="true"
@@ -78,6 +80,9 @@ while getopts "dha:" opt; do
             ;;
         a)
             ADDON_DIR="$OPTARG"
+            ;;
+        e)
+            execute="true"
             ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
@@ -102,3 +107,7 @@ if [ "$deploy" = "true" ]; then
 fi
 
 echo "Done!"
+
+if [ "$execute" = "true" ]; then
+    anki
+fi
