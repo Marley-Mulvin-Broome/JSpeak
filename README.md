@@ -24,10 +24,9 @@ This addon is **NOT YET** available on anki web. Please install it [manually](#m
 
 ### Manual
 
-1. Download the latest release from the [releases page]() and extract it to your Anki addons folder.
-2. Extract the zip file to your Anki addons folder. You can find this folder by going to Anki's preferences, then in the window that pops up, click the "Open Addons Folder" button.
-3. Restart Anki.
-4. **Done!**
+1. Download the latest release from the [releases page](https://github.com/Marley-Mulvin-Broome/JSpeak/releases) 
+2. Make sure you download the `JSpeak.ankiaddon` file.
+3. From there, you can either double-click the file, or drag it into Anki.
 
 ## Usage
 
