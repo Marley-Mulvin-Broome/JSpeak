@@ -79,7 +79,12 @@ def save_config(filename="config.ini") -> None:
 
 
 def get_user_config(key=None, expected_type=str):
-    """Get the user config stored in config.json."""
+    """Get the user config stored in config.json.
+
+    If key is None, return the entire config.
+       If key is not None, return the value for that key.
+       If expected_type is not None, cast the value to that type.
+    """
     if key is None:
         return mw.addonManager.getConfig(__name__)
 
